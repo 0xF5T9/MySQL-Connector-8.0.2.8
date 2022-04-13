@@ -5,9 +5,6 @@ Compiler: Visual Studio 2019
 
 Architecture: x86
 
-Notes:
-- To fix unicode error "???" on compile → add "/utf-8" to the solution's properties under "Configuration Properties → C/C++ → Command Line → Additional Options".
-
 ## Set-up compile environment:
 Needs:
 - Visual Studio 2019+ with C++ Compiler
@@ -21,3 +18,6 @@ VS Project Configurations:
 4. C/C++ → Command Line → Additional Options → Add "/utf-8".
 5. Linker → General → Additional Library Directories → Include "vs14" Folder from "MySQL Connector 8.0.2.8 dependencies". *[Image](https://media.discordapp.net/attachments/652412528793485313/963740147919241247/unknown.png)*
 6. Linker → Input → Additional Dependencies → Add "mysqlcppconn-static.lib". *[Image](https://media.discordapp.net/attachments/652412528793485313/963739744775335976/Capture.PNG)*
+
+Executables:
+- Executable file requires "libcrypto-1_1.dll", "libssl-1_1.dll" files to works. (Can be found in "MySQL Connector 8.0.2.8 dependencies")
