@@ -1,4 +1,5 @@
-#pragma once
+﻿#pragma once
+/*	Class: Menu - Các hàm prototype của Menu	*/
 class menu {
 public:
 	void Menu();

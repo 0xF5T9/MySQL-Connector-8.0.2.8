@@ -9,15 +9,80 @@
 #include "..\Sources\Headers\cmysql.h"
 #include "..\Sources\Headers\animation.h"
 
+/*	Tạo object từ classes để sử dụng constructor (Create the object to use constructors)	*/
 animation aniSQLObj;
-
 sql::Driver* driver;
 sql::Connection* con;
 sql::Statement* stmt;
 sql::PreparedStatement* pstmt;
 sql::ResultSet* result;
 
+/*	Định nghĩa các hàm của cMySQL (Define cMySQL Class Functions)	*/
+void cmysql::Connect() {
+	/*	Kết nối máy chủ MySQL (Connect to MySQL Server)	*/
+	int attemptKetNoi = 0;
+	while (true) {
+		try
+		{
+			driver = get_driver_instance();
+			con = driver->connect(server, username, password);
+			break;
+		}
+		catch (sql::SQLException e)
+		{
+			std::cout << "Không thể kết nối tới máy chủ ";
+			//cout << e.what() << endl;	//	DEBUG ONLY
+			aniSQLObj.dotAnimation(500);
+			attemptKetNoi++;
+			system("cls");
+		}
+		if (attemptKetNoi >= 3) exit(1);	//	Đóng chương trình nếu kết nối thất bại 3 lần (Close the program if fails to connect 3 times)
+	}
+	/*-----------------------------------------------------------------------------*/
+}
+
+void cmysql::ConnectDB() {
+	/*	Kết nối đến Database (Connect to Database)	*/
+	int attemptKetNoi = 0;
+	std::string input;
+	while (true) {
+		try {
+			/*	Kiểu 1: Nhập thủ công (Manually)	*/
+			//	std::cout << "Nhập Database: ";
+			//	std::cin >> input;
+			//	con->setSchema(input);
+			/*--------------------------------------*/
+
+			/*	Kiểu 2: Định sẵn giá trị (Predefined) */
+			input = "test";
+			con->setSchema(input);
+			/*----------------------------------------*/
+			break;
+		}
+		catch (sql::SQLException e) {
+			//cout << e.what() << endl;	//	DEBUG ONLY
+
+			/*	Kiểu 1: Nhập thủ công (Manually)	*/
+			//	std::cin.clear();
+			//	std::cin.ignore(10000, '\n');
+			//	system("cls");
+			/*--------------------------------------*/
+
+			/*	Kiểu 2: Định sẵn giá trị (Predefined) */
+			std::cout << "Không thể kết nối tới database ";
+			//	cout << e.what() << endl;	//	DEBUG ONLY
+			aniSQLObj.dotAnimation(500);
+			attemptKetNoi++;
+			system("cls");
+			/*----------------------------------------*/
+		}
+		if (attemptKetNoi >= 3) exit(1);	//	Đóng chương trình nếu kết nối thất bại 3 lần (Close the program if fails to connect 3 times)
+	}
+	/*-------------------------------------------------------*/
+}
+
 void cmysql::ReadTable(std::string t) {
+	/*	Đọc dữ liệu từ Table (Read data from Tables)	*/
 	try {
 		std::string y;
 		y = "SELECT * FROM " + t + ";";
@@ -49,76 +114,14 @@ void cmysql::ReadTable(std::string t) {
 	}
 	catch (sql::SQLException e) {
 		std::cout << std::endl;
-		//std::cout << e.what() << std::endl;	//	DEBUG ONLY
+		//	std::cout << e.what() << std::endl;	//	DEBUG ONLY
 		std::cout << "Table không tồn tại ";
 		aniSQLObj.dotAnimation(1000);
 	}
 }
 
-void cmysql::Connect() {
-	/*	Kết nối máy chủ MySQL (Connect to MySQL Server)	*/
-	int attemptKetNoi = 0;
-	while (true) {
-		try
-		{
-			driver = get_driver_instance();
-			con = driver->connect(server, username, password);
-			break;
-		}
-		catch (sql::SQLException e)
-		{
-			std::cout << "Không thể kết nối tới máy chủ ";
-			//cout << e.what() << endl;	//	DEBUG ONLY
-			aniSQLObj.dotAnimation(500);
-			attemptKetNoi++;
-			system("cls");
-		}
-		if (attemptKetNoi >= 3) exit(1);	//	Đóng chương trình nếu kết nối thất bại 3 lần
-	}
-	/*-----------------------------------------------------------------------------*/
-}
-
-void cmysql::ConnectDB() {
-	/*	Kết nối đến Database (Connect to Database)	*/
-	int attemptKetNoi = 0;
-	std::string input;
-	while (true) {
-		try {
-			/*	Kiểu 1: Nhập thủ công	*/
-			//std::cout << "Nhập Database: ";
-			//std::cin >> input;
-			//con->setSchema(input);
-			/*--------------------------*/
-
-			/*	Kiểu 2: Định sẵn giá trị*/
-			input = "quickstartdb";
-			con->setSchema(input);
-			/*--------------------------*/
-			break;
-		}
-		catch (sql::SQLException e) {
-			//cout << e.what() << endl;	//	DEBUG ONLY
-
-			/*	Kiểu 1: Nhập thủ công	*/
-			//std::cin.clear();
-			//std::cin.ignore(10000, '\n');
-			//system("cls");
-			/*--------------------------*/
-
-			/*	Kiểu 2: Định sẵn giá trị*/
-			std::cout << "Không thể kết nối tới database ";
-			//cout << e.what() << endl;	//	DEBUG ONLY
-			aniSQLObj.dotAnimation(500);
-			attemptKetNoi++;
-			system("cls");
-			/*--------------------------*/
-		}
-		if (attemptKetNoi >= 3) exit(1);	//	Đóng chương trình nếu kết nối thất bại 3 lần
-	}
-	/*-------------------------------------------------------*/
-}
-
 void cmysql::AddTable(std::string x) {
+	/*	Thêm table vào Database (Add tables to the Database)	*/
 	try {
 		std::string y;
 		y = "CREATE TABLE " + x + " (id serial PRIMARY KEY, user VARCHAR(100), pwd VARCHAR(100))";
@@ -130,12 +133,13 @@ void cmysql::AddTable(std::string x) {
 		aniSQLObj.dotAnimation(1000);
 	}
 	catch (sql::SQLException e) {
-		//std::cout << std::endl;
-		//std::cout << e.what() << std::endl;	//	DEBUG ONLY
+		//	std::cout << std::endl;
+		//	std::cout << e.what() << std::endl;	//	DEBUG ONLY
 	}
 }
 
 void cmysql::DeleteTable(std::string x) {
+	/*	Xoá Table khỏi Database (Delete Tables from the Database)	*/
 	try {
 		std::string y;
 		y = "DROP TABLE IF EXISTS " + x;
@@ -147,12 +151,13 @@ void cmysql::DeleteTable(std::string x) {
 		aniSQLObj.dotAnimation(1000);
 	}
 	catch (sql::SQLException e) {
-		//std::cout << std::endl;
-		//std::cout << e.what() << std::endl;	//	DEBUG ONLY
+		//	std::cout << std::endl;
+		//	std::cout << e.what() << std::endl;	//	DEBUG ONLY
 	}
 }
 
 void cmysql::InsertData(std::string t, std::string u, std::string p) {
+	/*	Thêm dữ liệu vào Table (Add data to the Tables)	*/
 	try {
 		std::string y;
 		y = "INSERT INTO " + t + "(user, pwd) VALUES(\"" + u + "\",\"" + p + "\")";
@@ -165,7 +170,7 @@ void cmysql::InsertData(std::string t, std::string u, std::string p) {
 	}
 	catch (sql::SQLException e) {
 		std::cout << std::endl;
-		//std::cout << e.what() << std::endl;	//	DEBUG ONLY
+		//	std::cout << e.what() << std::endl;	//	DEBUG ONLY
 		std::cout << "Table không tồn tại hoặc sai kiểu dữ liệu ";
 		aniSQLObj.dotAnimation(1000);
 	}

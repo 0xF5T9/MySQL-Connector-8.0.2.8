@@ -10,9 +10,11 @@
 #include "..\Sources\Headers\menu.h"
 #include "..\Sources\Headers\animation.h"
 
+/*	Tạo object từ classes để sử dụng constructor (Create the object to use constructors)	*/
 cmysql SQLMenuObj;
 animation aniMenuObj;
 
+/*	Định nghĩa các hàm của Menu (Define Menu Class Functions)	*/
 void menu::Menu() {
 	std::cout << "1. Đọc dữ liệu\n";
 	std::cout << "2. Thêm table\n";

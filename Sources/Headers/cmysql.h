@@ -1,4 +1,5 @@
-#pragma once
+﻿#pragma once
+/*	Class: cMySQL - Các hàm prototype của cMySQL	*/
 class cmysql {
 private:
 	const std::string server = "tcp://localhost:3306";
