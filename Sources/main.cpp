@@ -6,9 +6,9 @@
 #include <cppconn/driver.h>
 #include <cppconn/exception.h>
 #include <cppconn/prepared_statement.h>
-#include "animation.h"
-#include "cmysql.h"
-#include "menu.h"
+#include "..\Sources\Headers\animation.h"
+#include "..\Sources\Headers\cmysql.h"
+#include "..\Sources\Headers\menu.h"
 using namespace std;
 
 //for demonstration only. never save your password in the code!

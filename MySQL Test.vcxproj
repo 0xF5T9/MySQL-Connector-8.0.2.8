@@ -148,15 +148,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="animation.cpp" />
-    <ClCompile Include="cmysql.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="menu.cpp" />
+    <ClInclude Include="Sources\Headers\animation.h" />
+    <ClInclude Include="Sources\Headers\cmysql.h" />
+    <ClInclude Include="Sources\Headers\menu.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="animation.h" />
-    <ClInclude Include="cmysql.h" />
-    <ClInclude Include="menu.h" />
+    <ClCompile Include="Sources\animation.cpp" />
+    <ClCompile Include="Sources\cmysql.cpp" />
+    <ClCompile Include="Sources\main.cpp" />
+    <ClCompile Include="Sources\menu.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

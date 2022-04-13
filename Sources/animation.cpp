@@ -1,6 +1,6 @@
 #include <iostream>
 #include <Windows.h>
-#include "animation.h"
+#include "..\Sources\Headers\animation.h"
 
 void animation::dotAnimation(int x) {
 	for (int i = 0; i < 3; i++) {

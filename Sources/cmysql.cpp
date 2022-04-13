@@ -6,8 +6,8 @@
 #include <cppconn/driver.h>
 #include <cppconn/exception.h>
 #include <cppconn/prepared_statement.h>
-#include "cmysql.h"
-#include "animation.h"
+#include "..\Sources\Headers\cmysql.h"
+#include "..\Sources\Headers\animation.h"
 
 animation aniSQLObj;
 
