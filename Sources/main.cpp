@@ -23,6 +23,7 @@ int main() {
 	int luaChon;
 	bool q = false;
 	SetConsoleOutputCP(65001);	//	Set codepage UTF-8 - hỗ trợ tiếng việt
+	SetConsoleTitle(L"Loading ...");
 	cmysqlMainObj.Connect();	//	Kết nối máy chủ MySQL (Connect to the MySQL Server)
 	cmysqlMainObj.ConnectDB();	//	Kết nối Database (Connect to the Database)
 	SetConsoleTitle(L"MySQL Connector with Demo Functions");
