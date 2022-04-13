@@ -51,8 +51,10 @@ bool menu::processInput(int x) {
 	case 1: {
 		system("cls");
 		Menu();
+		SQLMenuObj.ShowTables();
+		std::cout << std::endl;
 		std::string tinput;
-		std::cout << "Nhập tên table: ";
+		std::cout << "Chọn table: ";
 		std::cin >> tinput;
 		SQLMenuObj.ReadTable(tinput);
 		return q;
@@ -61,8 +63,10 @@ bool menu::processInput(int x) {
 	case 2: {
 		system("cls");
 		Menu();
+		SQLMenuObj.ShowTables();
+		std::cout << std::endl;
 		std::string ainput;
-		std::cout << "Nhập tên table: ";
+		std::cout << "Chọn table: ";
 		std::cin >> ainput;
 		SQLMenuObj.AddTable(ainput);
 		return q;
@@ -71,8 +75,10 @@ bool menu::processInput(int x) {
 	case 3: {
 		system("cls");
 		Menu();
+		SQLMenuObj.ShowTables();
+		std::cout << std::endl;
 		std::string dinput;
-		std::cout << "Nhập tên table: ";
+		std::cout << "Chọn table: ";
 		std::cin >> dinput;
 		SQLMenuObj.DeleteTable(dinput);
 		return q;
@@ -84,11 +90,13 @@ bool menu::processInput(int x) {
 		std::string tinput;
 		std::string uinput;
 		std::string pinput;
-		std::cout << "Nhập tên table: ";
+		SQLMenuObj.ShowTables();
+		std::cout << std::endl;
+		std::cout << "Chọn table: ";
 		std::cin >> tinput;
-		std::cout << "Nhập dữ liệu 'user': ";
+		std::cout << "Nhập dữ liệu cho cột 'user': ";
 		std::cin >> uinput;
-		std::cout << "Nhập dữ liệu 'pwd': ";
+		std::cout << "Nhập dữ liệu cho cột 'pwd': ";
 		std::cin >> pinput;
 		SQLMenuObj.InsertData(tinput, uinput, pinput);
 		return q;
@@ -97,19 +105,7 @@ bool menu::processInput(int x) {
 	case 5: {
 		system("cls");
 		Menu();
-		std::string tinput;
-		std::string cinput;
-		std::string uinput;
-		std::string iinput;
-		std::cout << "Nhập tên table: ";
-		std::cin >> tinput;
-		std::cout << "Nhập tên column cần update: ";
-		std::cin >> cinput;
-		std::cout << "Nhập dữ liệu update: ";
-		std::cin >> uinput;
-		std::cout << "Nhập id cần update: ";
-		std::cin >> iinput;
-		SQLMenuObj.UpdateData(tinput, cinput, uinput, iinput);
+		SQLMenuObj.UpdateData();
 		return q;
 		break;
 	}
