@@ -148,6 +148,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Sources\Headers\animation.h" />
     <ClInclude Include="Sources\Headers\cmysql.h" />
     <ClInclude Include="Sources\Headers\menu.h" />
@@ -157,6 +158,12 @@
     <ClCompile Include="Sources\cmysql.cpp" />
     <ClCompile Include="Sources\main.cpp" />
     <ClCompile Include="Sources\menu.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="MySQL Connector.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Sources\Resources\icons8commandline96.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
