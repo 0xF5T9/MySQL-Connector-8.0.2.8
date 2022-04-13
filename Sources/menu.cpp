@@ -20,7 +20,8 @@ void menu::Menu() {
 	std::cout << "2. Thêm table\n";
 	std::cout << "3. Xoá table\n";
 	std::cout << "4. Thêm dữ liệu vào table\n";
-	std::cout << "5. Thoát chương trình\n";
+	std::cout << "5. Cập nhật dữ liệu table\n";
+	std::cout << "6. Thoát chương trình\n";
 	std::cout << std::endl;
 }
 
@@ -32,7 +33,7 @@ int menu::getInput() {
 		Menu();
 		std::cout << "Nhập lựa chọn: ";
 		std::cin >> i;
-		if (i > 0 && i < 6) {
+		if (i > 0 && i < 7) {
 			hopLe = true;
 		}
 		std::cin.clear();
@@ -93,7 +94,26 @@ bool menu::processInput(int x) {
 		return q;
 		break;
 	}
-	case 5:
+	case 5: {
+		system("cls");
+		Menu();
+		std::string tinput;
+		std::string cinput;
+		std::string uinput;
+		std::string iinput;
+		std::cout << "Nhập tên table: ";
+		std::cin >> tinput;
+		std::cout << "Nhập tên column cần update: ";
+		std::cin >> cinput;
+		std::cout << "Nhập dữ liệu update: ";
+		std::cin >> uinput;
+		std::cout << "Nhập id cần update: ";
+		std::cin >> iinput;
+		SQLMenuObj.UpdateData(tinput, cinput, uinput, iinput);
+		return q;
+		break;
+	}
+	case 6:
 		std::cout << std::endl;
 		std::cout << "Đang thoát chương trình ";
 		aniMenuObj.dotAnimation(100);

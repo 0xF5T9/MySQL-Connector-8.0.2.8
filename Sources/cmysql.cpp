@@ -175,3 +175,22 @@ void cmysql::InsertData(std::string t, std::string u, std::string p) {
 		aniSQLObj.dotAnimation(1000);
 	}
 }
+
+void cmysql::UpdateData(std::string t, std::string c, std::string u, std::string i) {
+	try { //UPDATE account SET pwd = "1212" WHERE user = "nhatduy1284t"
+		std::string y;
+		y = "UPDATE " + t + " SET " + c + " = \"" + u + "\" WHERE id = " + i;
+		pstmt = con->prepareStatement(y);
+		pstmt->execute();
+		std::cout << std::endl;
+		std::cout << "Đang cập nhật dữ liêu cho table " << t << " ";
+		delete pstmt;
+		aniSQLObj.dotAnimation(1000);
+	}
+	catch (sql::SQLException e) {
+		std::cout << std::endl;
+		//std::cout << e.what() << std::endl;	//	DEBUG ONLY
+		std::cout << "Table không tồn tại hoặc sai kiểu dữ liệu ";
+		aniSQLObj.dotAnimation(1000);
+	}
+}

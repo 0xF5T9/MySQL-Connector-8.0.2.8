@@ -12,5 +12,6 @@ public:
 	void AddTable(std::string x);
 	void DeleteTable(std::string x);
 	void InsertData(std::string t, std::string u, std::string p);
+	void UpdateData(std::string t, std::string c, std::string u, std::string i);
 };
 
