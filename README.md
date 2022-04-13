@@ -20,4 +20,6 @@ VS Project Configurations:
 6. Linker → Input → Additional Dependencies → Add "mysqlcppconn-static.lib". *[Image](https://media.discordapp.net/attachments/652412528793485313/963739744775335976/Capture.PNG)*
 
 Executables:
-- Executable file requires "libcrypto-1_1.dll", "libssl-1_1.dll" files to works. (Can be found in "MySQL Connector 8.0.2.8 dependencies")
+- Executable file requires "libcrypto-1_1.dll", "libssl-1_1.dll" files to be in the same directory to works. 
+
+(Can be found in "MySQL Connector 8.0.2.8 dependencies" and "Essentials" folder)
