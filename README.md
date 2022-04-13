@@ -23,3 +23,6 @@ Executables:
 - Executable file requires "libcrypto-1_1.dll", "libssl-1_1.dll" files to be in the same directory to works. 
 
 (Can be found in "MySQL Connector 8.0.2.8 dependencies" and "Essentials" folder)
+
+Notes:
+- Need update AddTable, InsertData function..
