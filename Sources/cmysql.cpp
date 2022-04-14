@@ -169,7 +169,7 @@ void cmysql::ShowTables() {
 }
 
 void cmysql::AddTable(std::string t, int c) {
-	/*	Thêm table vào Database (Add tables to the Database)	*/
+	/*	Thêm table vào Database (Add tables to database)	*/
 
 	//- 1. Lấy dữ liệu từ input (Get datas from input)
 	std::string TenCot;
@@ -194,7 +194,7 @@ void cmysql::AddTable(std::string t, int c) {
 	}
 	TaoQuery.append(")");
 
-	//- 2. Thêm table vào Database (Add tables to the Database)
+	//- 2. Thêm table vào Database (Add tables to database)
 	try {
 		pstmt = con->prepareStatement(TaoQuery);
 		pstmt->execute();
@@ -211,17 +211,17 @@ void cmysql::AddTable(std::string t, int c) {
 	}
 }
 
-void cmysql::DeleteTable(std::string x) {
+void cmysql::DeleteTable(std::string t) {
 	/*	Xoá Table khỏi Database (Delete Tables from the Database)	*/
 
 	//-	1. Xoá Table khỏi Database (Delete Tables from the Database)
 	try {
 		std::string TaoQuery;
-		TaoQuery = "DROP TABLE IF EXISTS " + x;
+		TaoQuery = "DROP TABLE IF EXISTS " + t;
 		pstmt = con->prepareStatement(TaoQuery);
 		pstmt->execute();
 		std::cout << std::endl;
-		std::cout << "Đang xoá table " << x << " ";
+		std::cout << "Đang xoá table " << t << " ";
 		delete pstmt;
 		aniSQLObj.dotAnimation(1000);
 	}
@@ -232,7 +232,7 @@ void cmysql::DeleteTable(std::string x) {
 }
 
 void cmysql::InsertData(std::string t) {
-	/*	Thêm dữ liệu vào Table (Add data to the Tables)	*/
+	/*	Thêm dữ liệu vào Table (Add data sto table)	*/
 
 	//- 2. Cout danh sách các cột (Cout list of columns)
 	std::string TenCot;
@@ -264,7 +264,7 @@ void cmysql::InsertData(std::string t) {
 	std::cout << "Nhập tổng số cột muốn thêm dữ liệu: ";
 	std::cin >> TongCot;
 	
-	//-	3. Thêm dữ liệu vào Table (Add data to the Tables)
+	//-	3. Thêm dữ liệu vào table (Add datas to table)
 	try {
 		for (int i = 0; i < TongCot; i++) {
 			std::cout << "Nhập tên cột (" << i + 1 << "): ";
@@ -295,47 +295,54 @@ void cmysql::InsertData(std::string t) {
 }
 
 void cmysql::UpdateData() {
-	/*	Hiện các table có sẵn trong Database (Show the available tables in Database)	*/
-	std::string t, c, u, i;
-	std::cout << "Danh sách table:   ";
+	/*	Cập nhật dữ liệu cho table (Update datas for table)	*/
+	std::string c, u, d, h;	//	Column, Update, Data, Hàng
+
+	//-	1. Đếm số cột trong Table (Count total columns in Table)
+	//- Cout danh sách các cột (Cout list of columns)
+	int TongCot = 0;	//	Biến đếm (Counting variable)
+	std::string t;
+	std::cout << "Chọn Table: ";
+	std::cin >> t;
 	try {
-		std::string y;
-		y = "SHOW TABLES;";
-		pstmt = con->prepareStatement(y);
+		std::string TaoQuery;
+		TaoQuery = "SHOW COLUMNS FROM " + t;
+		pstmt = con->prepareStatement(TaoQuery);
 		result = pstmt->executeQuery();
-		while (result->next()) {
-			std::string z = result->getString(1);
-			std::cout << z << " ";
+		while (result->next()) {	//	Vòng lặp cout tên cột (Loop cout column name)
+			std::string i = result->getString(1);
+			std::cout << i << "\t\t";
+			TongCot++;	//	+1 mỗi 1 vòng lặp (+1 per loop)
 		}
 	}
 	catch (sql::SQLException e) {
-	}
-	/*	Chọn Table để chỉnh sửa (Select the Table to update)	*/
-	try {
 		std::cout << std::endl;
-		std::cout << "Chọn table: ";
-		std::cin >> t;
-		std::string y;
-		y = "SELECT * FROM " + t + ";";
-		pstmt = con->prepareStatement(y);
+		//	std::cout << e.what() << std::endl;	//	DEBUG ONLY
+		std::cout << "Table không tồn tại ";
+		aniSQLObj.dotAnimation(1000);
+		goto escape2;	//	Thoát khỏi vòng lặp vì Table không tồn tại (Break the loop to try again because table doesn't exists)
+	}
+
+	//- 2. Lấy dữ liệu từ table và cout (Get and cout datas from table)
+	try {
+		std::string TaoQuery;
+		std::string DuLieu[100][100];	//	Tạo biến mảng 2 chiều chứa dữ liệu table (Create 2-dimensions variable to store datas)
+		TaoQuery = "SELECT * FROM " + t + ";";
+		pstmt = con->prepareStatement(TaoQuery);
 		result = pstmt->executeQuery();
-		std::string userdata[1000][3];
-		int x = 0;
-		int z;
-		std::cout << "id\t\tuser\t\t\tpwd\t\t";
+		int x1 = 0;	//	Biến đếm (Counting variable)
+		int x2 = 0;	//	Biến đếm (Counting variable)
 		while (result->next()) {
-			//printf("Reading from table=(%d, %s, %s)\n", result->getInt(1), result->getString(2).c_str(), result->getString(3).c_str());
-			z = result->getInt(1);
-			std::string z2 = std::to_string(z);
-			userdata[x][0] = z2;
-			userdata[x][1] = result->getString(2);
-			userdata[x][2] = result->getString(3);
-			x++;
+			for (int i = 0; i < TongCot; i++) {
+				DuLieu[x2][i] = result->getString(i + 1);
+			}
+			x1++;	//	Đếm có tổng cộng bao nhiêu row trong table (Count how many row exists)
+			x2++;	//	Đếm có tổng cộng bao nhiêu row trong table (Count how many row exists)
 		}
 		std::cout << std::endl;
-		for (int o = 0; o <= x; o++) {
-			for (int a = 0; a < 3; a++) {
-				std::cout << userdata[o][a] << "\t\t";
+		for (int i = 0; i <= x1; i++) {	// Số vòng lặp cout bằng với số row đã đếm (The number of cout loops is equal to the number of rows counted*x1)
+			for (int a = 0; a < TongCot; a++) {
+				std::cout << DuLieu[i][a] << "\t\t";
 			}
 			std::cout << std::endl;
 		}
@@ -347,19 +354,23 @@ void cmysql::UpdateData() {
 		//	std::cout << e.what() << std::endl;	//	DEBUG ONLY
 		std::cout << "Table không tồn tại ";
 		aniSQLObj.dotAnimation(1000);
-		goto escape2;	//	Thoát khỏi vòng lặp vì Table không tồn tại (Break the loop to try again because table doesn't exists)
 	}
-	/*	Cập nhật dữ liệu cho Table (Update datas for the table)	*/
-	std::cout << "Chọn id: ";
-	std::cin >> i;
-	std::cout << "Chọn cột: ";
+
+	//-	2. Cập nhật dữ liệu cho Table (Update datas for the table)
+	std::cout << std::endl;
+	std::cout << "Đối với loại cột 'varchar' phải thêm \"\" (Ví dụ: \"text\")" << std::endl;
+	std::cout << "Chọn cột để chọn hàng muốn update: ";
+	std::cin >> h;
+	std::cout << "Chọn hàng muốn update: ";
+	std::cin >> d;
+	std::cout << "Chọn cột muốn update: ";
 	std::cin >> c;
 	std::cout << "Nhập dữ liệu update: ";
 	std::cin >> u;
 	try {
-		std::string y;
-		y = "UPDATE " + t + " SET " + c + " = \"" + u + "\" WHERE id = " + i;
-		pstmt = con->prepareStatement(y);
+		std::string TaoQuery;
+		TaoQuery = "UPDATE " + t + " SET " + c + " = " + u + " WHERE " + h + " = " + d;
+		pstmt = con->prepareStatement(TaoQuery);
 		pstmt->execute();
 		std::cout << std::endl;
 		std::cout << "Đang cập nhật dữ liệu table " << t << " ";

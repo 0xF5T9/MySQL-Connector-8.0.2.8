@@ -100,6 +100,8 @@ bool menu::processInput(int x) {
 	case 5: {
 		system("cls");
 		Menu();
+		SQLMenuObj.ShowTables();
+		std::cout << std::endl;
 		SQLMenuObj.UpdateData();
 		return q;
 		break;
