@@ -60,15 +60,32 @@ bool menu::processInput(int x) {
 		return q;
 		break;
 	}
+		  /*
+		  case 2: {
+			  system("cls");
+			  Menu();
+			  SQLMenuObj.ShowTables();
+			  std::cout << std::endl;
+			  std::string ainput;
+			  std::cout << "Chọn table: ";
+			  std::cin >> ainput;
+			  SQLMenuObj.AddTable(ainput);
+			  return q;
+			  break;
+		  }
+		  */
 	case 2: {
 		system("cls");
 		Menu();
 		SQLMenuObj.ShowTables();
 		std::cout << std::endl;
-		std::string ainput;
-		std::cout << "Chọn table: ";
-		std::cin >> ainput;
-		SQLMenuObj.AddTable(ainput);
+		std::string tinput;
+		int cinput;
+		std::cout << "Nhập table: ";
+		std::cin >> tinput;
+		std::cout << "Nhập số cột: ";
+		std::cin >> cinput;
+		SQLMenuObj.AddTable2(tinput, cinput);
 		return q;
 		break;
 	}

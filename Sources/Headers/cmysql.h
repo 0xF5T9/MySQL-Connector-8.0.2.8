@@ -11,7 +11,7 @@ public:
 	void ReadTable(std::string t);
 	void ShowTables();
 	void AddTable(std::string x);
-	void AddTable2(std::string x);
+	void AddTable2(std::string t, int c);
 	void DeleteTable(std::string x);
 	void InsertData(std::string t, std::string u, std::string p);
 	void UpdateData();

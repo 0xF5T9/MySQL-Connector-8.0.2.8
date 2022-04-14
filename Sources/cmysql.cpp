@@ -155,22 +155,44 @@ void cmysql::AddTable(std::string x) {
 		//	std::cout << e.what() << std::endl;	//	DEBUG ONLY
 	}
 }
-
-void cmysql::AddTable2(std::string x) {
+// table coluum
+void cmysql::AddTable2(std::string t, int c) {
 	/*	Thêm table vào Database (Add tables to the Database)	*/
+	std::string tencot;
+	std::string loaicot;
+	std::string cy;
+	cy = "CREATE TABLE " + t + " (";
+	std::cout << "Danh sách các loại cột có sẵn: serial, serialPRIMARY, varchar, varcharPRIMARY, integer, integerPRIMARY\n";
+	std::cout << std::endl;
+	for (int i = 0; i < c; i++) {
+		std::cout << "Nhập tên cột (" << i + 1 << "): ";
+		std::cin >> tencot;
+		std::cout << "Nhập loại cột (" << i + 1 << "): ";
+		std::cin >> loaicot;
+		if (loaicot == "serial") loaicot = "serial";
+		if (loaicot == "serialPRIMARY") loaicot = "serial PRIMARY KEY";
+		if (loaicot == "varchar") loaicot = "VARCHAR(100)";
+		if (loaicot == "varcharPRIMARY") loaicot = "VARCHAR(100) PRIMARY KEY";
+		if (loaicot == "integer") loaicot = "INTEGER";
+		if (loaicot == "integerPRIMARY") loaicot = "INTEGER PRIMARY KEY";
+		cy.append(tencot + " " + loaicot);
+		if (i < c - 1) cy.append(",");
+	}
+	cy.append(")");
 	try {
 		std::string y;
-		y = "CREATE TABLE " + x + " (id serial PRIMARY KEY, user VARCHAR(100), pwd VARCHAR(100))";
-		pstmt = con->prepareStatement(y);
+		pstmt = con->prepareStatement(cy);
 		pstmt->execute();
 		std::cout << std::endl;
-		std::cout << "Đang tạo table " << x << " ";
+		std::cout << "Đang tạo table " << t << " ";
 		delete pstmt;
 		aniSQLObj.dotAnimation(1000);
 	}
 	catch (sql::SQLException e) {
-		//	std::cout << std::endl;
-		//	std::cout << e.what() << std::endl;	//	DEBUG ONLY
+			std::cout << std::endl;
+			std::cout << "Table đã tồn tồn tại hoặc loại cột không hợp lệ ";
+			aniSQLObj.dotAnimation(1000);
+			//std::cout << e.what() << std::endl;	//	DEBUG ONLY
 	}
 }
 
