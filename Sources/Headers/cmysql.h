@@ -10,10 +10,9 @@ public:
 	void ConnectDB();
 	void ReadTable(std::string t);
 	void ShowTables();
-	void AddTable(std::string x);
-	void AddTable2(std::string t, int c);
+	void AddTable(std::string t, int c);
 	void DeleteTable(std::string x);
-	void InsertData(std::string t, std::string u, std::string p);
+	void InsertData(std::string t);
 	void UpdateData();
 };
 

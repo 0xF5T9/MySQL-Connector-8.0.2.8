@@ -138,25 +138,7 @@ void cmysql::ShowTables() {
 	}
 }
 
-void cmysql::AddTable(std::string x) {
-	/*	Thêm table vào Database (Add tables to the Database)	*/
-	try {
-		std::string y;
-		y = "CREATE TABLE " + x + " (id serial PRIMARY KEY, user VARCHAR(100), pwd VARCHAR(100))";
-		pstmt = con->prepareStatement(y);
-		pstmt->execute();
-		std::cout << std::endl;
-		std::cout << "Đang tạo table " << x << " ";
-		delete pstmt;
-		aniSQLObj.dotAnimation(1000);
-	}
-	catch (sql::SQLException e) {
-		//	std::cout << std::endl;
-		//	std::cout << e.what() << std::endl;	//	DEBUG ONLY
-	}
-}
-// table coluum
-void cmysql::AddTable2(std::string t, int c) {
+void cmysql::AddTable(std::string t, int c) {
 	/*	Thêm table vào Database (Add tables to the Database)	*/
 	std::string tencot;
 	std::string loaicot;
@@ -214,12 +196,50 @@ void cmysql::DeleteTable(std::string x) {
 	}
 }
 
-void cmysql::InsertData(std::string t, std::string u, std::string p) {
+void cmysql::InsertData(std::string t) {
 	/*	Thêm dữ liệu vào Table (Add data to the Tables)	*/
+	std::string tencot;
+	std::string dulieucot;
+	std::string cy;
+	std::string cy2;
+	int c;
+	std::cout << "Danh sách các cột:   ";
 	try {
 		std::string y;
-		y = "INSERT INTO " + t + "(user, pwd) VALUES(\"" + u + "\",\"" + p + "\")";
+		y = "SHOW COLUMNS FROM " + t;
 		pstmt = con->prepareStatement(y);
+		result = pstmt->executeQuery();
+		while (result->next()) {
+			std::string z = result->getString(1);
+			std::cout << z << " ";
+		}
+	}
+	catch (sql::SQLException e) {
+		std::cout << std::endl;
+		//	std::cout << e.what() << std::endl;	//	DEBUG ONLY
+		std::cout << "Table không tồn tại ";
+		aniSQLObj.dotAnimation(1000);
+		goto escape1;	//	Thoát khỏi vòng lặp vì Table không tồn tại (Break the loop to try again because table doesn't exists)
+	}
+	cy = "INSERT INTO " + t + "(";
+	std::cout << std::endl;
+	std::cout << "Đối với loại cột 'varchar' phải thêm \"\" (Ví dụ: \"text\")" << std::endl;
+	std::cout << "Nhập tổng số cột muốn thêm dữ liệu: ";
+	std::cin >> c;
+	try {
+		std::string y; // INSERT INTO table(coum, colum) VALUES(value,value)
+		for (int i = 0; i < c; i++) {
+			std::cout << "Nhập tên cột (" << i + 1 << "): ";
+			std::cin >> tencot;
+			std::cout << "Nhập dữ liệu cột (" << i + 1 << "): ";
+			std::cin >> dulieucot;
+			cy.append(tencot);
+			cy2.append(dulieucot);
+			if (i < c - 1) cy.append(",");
+			if (i < c - 1) cy2.append(",");
+		}
+		cy.append(") VALUES (" + cy2 + ")");
+		pstmt = con->prepareStatement(cy);
 		pstmt->execute();
 		std::cout << std::endl;
 		std::cout << "Đang thêm dữ liệu table " << t << " ";
@@ -232,6 +252,8 @@ void cmysql::InsertData(std::string t, std::string u, std::string p) {
 		std::cout << "Table không tồn tại hoặc dữ liệu không hợp lệ ";
 		aniSQLObj.dotAnimation(1000);
 	}
+	escape1:
+	std::cout << "";
 }
 
 void cmysql::UpdateData() {
@@ -287,7 +309,7 @@ void cmysql::UpdateData() {
 		//	std::cout << e.what() << std::endl;	//	DEBUG ONLY
 		std::cout << "Table không tồn tại ";
 		aniSQLObj.dotAnimation(1000);
-		goto escape;	//	Thoát khỏi vòng lặp vì Table không tồn tại (Break the loop to try again because table doesn't exists)
+		goto escape2;	//	Thoát khỏi vòng lặp vì Table không tồn tại (Break the loop to try again because table doesn't exists)
 	}
 	/*	Cập nhật dữ liệu cho Table (Update datas for the table)	*/
 	std::cout << "Chọn id: ";
@@ -313,6 +335,6 @@ void cmysql::UpdateData() {
 		aniSQLObj.dotAnimation(1000);
 	}
 	/*	Đặt điểm thoát nhanh khỏi vòng lặp (Set the escape point to break loop if needed)	*/
-	escape:
+	escape2:
 	std::cout << "";
 }

@@ -38,8 +38,6 @@ int menu::getInput() {
 		}
 		std::cin.clear();
 		std::cin.ignore(10000, '\n');
-		//system("cls");
-		//Menu();
 	}
 	return i;
 }
@@ -60,20 +58,6 @@ bool menu::processInput(int x) {
 		return q;
 		break;
 	}
-		  /*
-		  case 2: {
-			  system("cls");
-			  Menu();
-			  SQLMenuObj.ShowTables();
-			  std::cout << std::endl;
-			  std::string ainput;
-			  std::cout << "Chọn table: ";
-			  std::cin >> ainput;
-			  SQLMenuObj.AddTable(ainput);
-			  return q;
-			  break;
-		  }
-		  */
 	case 2: {
 		system("cls");
 		Menu();
@@ -85,7 +69,7 @@ bool menu::processInput(int x) {
 		std::cin >> tinput;
 		std::cout << "Nhập số cột: ";
 		std::cin >> cinput;
-		SQLMenuObj.AddTable2(tinput, cinput);
+		SQLMenuObj.AddTable(tinput, cinput);
 		return q;
 		break;
 	}
@@ -105,17 +89,11 @@ bool menu::processInput(int x) {
 		system("cls");
 		Menu();
 		std::string tinput;
-		std::string uinput;
-		std::string pinput;
 		SQLMenuObj.ShowTables();
 		std::cout << std::endl;
 		std::cout << "Chọn table: ";
 		std::cin >> tinput;
-		std::cout << "Nhập dữ liệu cho cột 'user': ";
-		std::cin >> uinput;
-		std::cout << "Nhập dữ liệu cho cột 'pwd': ";
-		std::cin >> pinput;
-		SQLMenuObj.InsertData(tinput, uinput, pinput);
+		SQLMenuObj.InsertData(tinput);
 		return q;
 		break;
 	}
