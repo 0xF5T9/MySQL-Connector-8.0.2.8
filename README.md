@@ -2,7 +2,9 @@
 MySQL Connector in C++ with Demo Functions
  
 Compiler: Visual Studio 2019
+
 Build Mode: Release x86
+
 Architecture: x86
 
 ## Set-up compile environment:
