@@ -156,6 +156,24 @@ void cmysql::AddTable(std::string x) {
 	}
 }
 
+void cmysql::AddTable2(std::string x) {
+	/*	Thêm table vào Database (Add tables to the Database)	*/
+	try {
+		std::string y;
+		y = "CREATE TABLE " + x + " (id serial PRIMARY KEY, user VARCHAR(100), pwd VARCHAR(100))";
+		pstmt = con->prepareStatement(y);
+		pstmt->execute();
+		std::cout << std::endl;
+		std::cout << "Đang tạo table " << x << " ";
+		delete pstmt;
+		aniSQLObj.dotAnimation(1000);
+	}
+	catch (sql::SQLException e) {
+		//	std::cout << std::endl;
+		//	std::cout << e.what() << std::endl;	//	DEBUG ONLY
+	}
+}
+
 void cmysql::DeleteTable(std::string x) {
 	/*	Xoá Table khỏi Database (Delete Tables from the Database)	*/
 	try {
