@@ -8,7 +8,8 @@ private:
 public:
 	void Connect();
 	void ConnectDB();
-	void ReadTable(std::string t);
+	//void ReadTable(std::string t);
+	void ReadTable2(std::string t);
 	void ShowTables();
 	void AddTable(std::string t, int c);
 	void DeleteTable(std::string x);

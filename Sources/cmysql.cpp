@@ -81,30 +81,49 @@ void cmysql::ConnectDB() {
 	/*-------------------------------------------------------*/
 }
 
-void cmysql::ReadTable(std::string t) {
-	/*	Đọc dữ liệu từ Table (Read data from Tables)	*/
+void cmysql::ReadTable2(std::string t) {
+	/*	Đọc dữ liệu từ Table (Read datas from the Table)	*/
+
+	int tongcot = 0;	//	Đếm số cột trong Table
+
+	try {
+		std::string taolenh;
+		taolenh = "SHOW COLUMNS FROM " + t;
+		pstmt = con->prepareStatement(taolenh);
+		result = pstmt->executeQuery();
+		while (result->next()) {
+			std::string z = result->getString(1);
+			std::cout << z << "\t\t";
+			tongcot++;	//	+1 mỗi 1 vòng lặp
+		}
+	}
+	catch (sql::SQLException e) {
+		std::cout << std::endl;
+		//	std::cout << e.what() << std::endl;	//	DEBUG ONLY
+		std::cout << "Table không tồn tại ";
+		aniSQLObj.dotAnimation(1000);
+		goto escape0;	//	Thoát khỏi vòng lặp vì Table không tồn tại (Break the loop to try again because table doesn't exists)
+	}
 	try {
 		std::string y;
 		y = "SELECT * FROM " + t + ";";
 		pstmt = con->prepareStatement(y);
 		result = pstmt->executeQuery();
-		std::string userdata[1000][3];
+		std::string userdata[100][100];
 		int x = 0;
+		int x2 = 0;
+		int a = 1;
 		int z;
-		std::cout << "id\t\tuser\t\t\tpwd\t\t";
 		while (result->next()) {
-			//printf("Reading from table=(%d, %s, %s)\n", result->getInt(1), result->getString(2).c_str(), result->getString(3).c_str());
-			z = result->getInt(1);
-			std::string z2 = std::to_string(z);
-			userdata[x][0] = z2;
-			userdata[x][1] = result->getString(2);
-			userdata[x][2] = result->getString(3);
+			for (int i = 0; i < tongcot; i++) {
+				userdata[x2][i] = result->getString(i+1);
+			}
 			x++;
+			x2++;
 		}
-
 		std::cout << std::endl;
 		for (int o = 0; o <= x; o++) {
-			for (int a = 0; a < 3; a++) {
+			for (int a = 0; a < tongcot; a++) {
 				std::cout << userdata[o][a] << "\t\t";
 			}
 			std::cout << std::endl;
@@ -119,6 +138,8 @@ void cmysql::ReadTable(std::string t) {
 		std::cout << "Table không tồn tại ";
 		aniSQLObj.dotAnimation(1000);
 	}
+	escape0:
+	std::cout << "";
 }
 
 void cmysql::ShowTables() {

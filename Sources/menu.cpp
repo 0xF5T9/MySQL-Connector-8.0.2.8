@@ -54,7 +54,7 @@ bool menu::processInput(int x) {
 		std::string tinput;
 		std::cout << "Chọn table: ";
 		std::cin >> tinput;
-		SQLMenuObj.ReadTable(tinput);
+		SQLMenuObj.ReadTable2(tinput);
 		return q;
 		break;
 	}
