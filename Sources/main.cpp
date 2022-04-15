@@ -12,7 +12,7 @@
 
 using namespace std;
 
-/*	Tạo object từ classes để sử dụng constructor (Create the object to use constructors)	*/
+/*	Tạo object từ classes (Create objects from classes)	*/
 animation aniMainObj;
 cmysql cmysqlMainObj;
 menu menuMainObj;
@@ -24,6 +24,7 @@ int main() {
 	bool q = false;
 	SetConsoleOutputCP(65001);	//	Set codepage UTF-8 - hỗ trợ tiếng việt
 	SetConsoleTitle(L"Loading ...");
+	cmysqlMainObj.ConfigFile();	//	Lấy dữ liệu kết nối máy chủ MySQL từ file server.cfg
 	cmysqlMainObj.Connect();	//	Kết nối máy chủ MySQL (Connect to the MySQL Server)
 	cmysqlMainObj.ConnectDB();	//	Kết nối Database (Connect to the Database)
 	SetConsoleTitle(L"MySQL Connector with Demo Functions");

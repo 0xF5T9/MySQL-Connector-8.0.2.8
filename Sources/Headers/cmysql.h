@@ -2,10 +2,16 @@
 /*	Class: cMySQL - Các hàm prototype của cMySQL	*/
 class cmysql {
 private:
-	const std::string server = "tcp://localhost:3306";
-	const std::string username = "root";
-	const std::string password = "1284";
+	std::string sqlserver;
+	std::string sqluser;
+	std::string sqlpwd;
 public:
+	cmysql() {	//	Constructor
+	}
+	~cmysql() {	//	Destructor
+	}
+
+	void ConfigFile();
 	void Connect();
 	void ConnectDB();
 	void ReadTable(std::string t);

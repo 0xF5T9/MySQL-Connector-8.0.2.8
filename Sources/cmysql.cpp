@@ -1,5 +1,6 @@
 ﻿#include <stdlib.h>
 #include <iostream>
+#include <fstream>
 #include <Windows.h>
 
 #include "mysql_connection.h"
@@ -9,7 +10,7 @@
 #include "..\Sources\Headers\cmysql.h"
 #include "..\Sources\Headers\animation.h"
 
-/*	Tạo object từ classes để sử dụng constructor (Create the object to use constructors)	*/
+/*	Tạo object từ classes (Create objects from classes)	*/
 animation aniSQLObj;
 sql::Driver* driver;
 sql::Connection* con;
@@ -18,29 +19,64 @@ sql::PreparedStatement* pstmt;
 sql::ResultSet* result;
 
 /*	Định nghĩa các hàm của cMySQL (Define cMySQL Class Functions)	*/
+void cmysql::ConfigFile() {
+	std::ifstream cFile("server.cfg");	//	Tạo biến input-stream xử lý đầu vào (Ifstream for reading)
+	if (cFile.is_open()) {	//	Kiểm tra nếu file server.cfg tồn tại (Check if the file "server.cfg" is exists)
+		std::string line;
+		while (getline(cFile, line))
+		{
+			line.erase(std::remove_if(line.begin(), line.end(), isspace), line.end());
+			if (line[0] == '#' || line.empty()) continue;
+
+			auto delimiterPos = line.find("=");
+			auto name = line.substr(0, delimiterPos);
+			auto value = line.substr(delimiterPos + 1);
+
+			//	Truy và đọc dữ liệu từ file (Scan and read data from file)
+			if (name == "server") sqlserver = value;
+			else if (name == "user") sqluser = value;
+			else if (name == "pass") sqlpwd = value;
+		}
+	}
+	else {
+		std::ofstream gFile("server.cfg");	//	Tạo biến output-stream xử lý đầu ra (Ofstream for writing)
+		std::cout << "không tìm thấy file cài đặt kết nối 'server.cfg', đang tạo file";
+		gFile << "# Cài đặt kết nối\nserver = tcp://localhost:3306\nuser = root\npass = 123456" << std::endl;	//	Viết cài đặt kết nối mặc định vào file (Writing default config file)
+		aniSQLObj.dotAnimation(300);
+		std::cout << "\nĐã tạo file 'server.cfg', hãy nhập cài đặt kết nối và thử lại.\n";
+		gFile.close();	// Đóng file (Close file)
+		system("pause");
+		exit(1);
+	}
+}
+
 void cmysql::Connect() {
 	/*	Kết nối máy chủ MySQL (Connect to MySQL Server)	*/
 
 	//- 1. Kết nối máy chủ MySQL (Connect to MySQL Server)
 	//- Đóng chương trình nếu kết nối thất bại 3 lần (Close the program if fails to connect 3 times)
 	int SoLanThuKetNoi = 0;	//	Biến đếm (Counting variable)
+	bool KetNoiThanhCong = false;
 	while (true) {	//	Vòng lặp vĩnh cữu (Loop untill success or not)
 		try
 		{
 			driver = get_driver_instance();
-			con = driver->connect(server, username, password);
+			con = driver->connect(sqlserver, sqluser, sqlpwd);
+			KetNoiThanhCong = true;
 			break;
 		}
 		catch (sql::SQLException e)
 		{
-			std::cout << "Không thể kết nối tới máy chủ ";
+			std::cout << "Đang kết nối tới máy chủ MySQL ";
 			//	cout << e.what() << endl;	//	DEBUG ONLY
 			aniSQLObj.dotAnimation(500);
 			SoLanThuKetNoi++;	//	+1 mỗi lần thử kết nối (+1 per connect attempt)
 			system("cls");
 		}
-		if (SoLanThuKetNoi >= 3) exit(1);	//	Đóng chương trình nếu kết nối thất bại 3 lần (Close the program if fails to connect 3 times)
+		if (SoLanThuKetNoi >= 3) break;	
 	}
+	if (KetNoiThanhCong == false) std::cout << "Kết nối thất bại, kiểm tra cài đặt kết nối ở file 'server.cfg' và thử lại.\n",system("pause");
+	if (SoLanThuKetNoi >= 3) exit(1);	//	Đóng chương trình nếu kết nối thất bại 3 lần (Close the program if fails to connect 3 times)
 }
 
 void cmysql::ConnectDB() {
