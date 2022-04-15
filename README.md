@@ -1,7 +1,7 @@
 # MySQL Connector 8.0.2.8
 MySQL Connector in C++ with Demo Functions
  
-Compiler: Visual Studio 2019
+Compiler: Visual Studio 2022
 
 Build Mode: Release x86
 
@@ -25,3 +25,6 @@ Executables:
 - Executable file requires "libcrypto-1_1.dll", "libssl-1_1.dll" files to be in the same directory to works. 
 
 (Can be found in "MySQL Connector 8.0.2.8 dependencies" and "Essentials" folder)
+
+Notes:
+- For the 'server.cfg' file to be found in debug compile mode, it must be located in the same directory as the project .sln
