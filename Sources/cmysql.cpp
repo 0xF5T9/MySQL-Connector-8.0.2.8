@@ -84,40 +84,24 @@ void cmysql::ConnectDB() {
 
 	//- 1. Kết nối đến Database (Connect to Database)
 	//- Đóng chương trình nếu kết nối thất bại 3 lần (Close the program if fails to connect 3 times)
-	int SoLanThuKetNoi = 0;
 	std::string database;
 	while (true) {
 		try {
-			/*	Kiểu 1: Nhập thủ công (Manually)	*/
-			//	std::cout << "Nhập Database: ";
-			//	std::cin >> database;
-			//	con->setSchema(database);
-			/*--------------------------------------*/
-
-			/*	Kiểu 2: Định sẵn giá trị (Predefined) */
-			database = "test";
+			ShowDatabases();
+			std::cout << "Chọn database: ";
+			std::cin >> database;
 			con->setSchema(database);
-			/*----------------------------------------*/
+			system("cls");
 			break;
 		}
 		catch (sql::SQLException e) {
 			//	cout << e.what() << endl;	//	DEBUG ONLY
-
-			/*	Kiểu 1: Nhập thủ công (Manually)	*/
-			//	std::cin.clear();
-			//	std::cin.ignore(10000, '\n');
-			//	system("cls");
-			/*--------------------------------------*/
-
-			/*	Kiểu 2: Định sẵn giá trị (Predefined) */
-			std::cout << "Không thể kết nối tới database ";
-			//	cout << e.what() << endl;	//	DEBUG ONLY
+			std::cout << "Database không tồn tại hoặc có sự cố kết nối ";
 			aniSQLObj.dotAnimation(500);
-			SoLanThuKetNoi++;
+			std::cin.clear();
+			std::cin.ignore(10000, '\n');
 			system("cls");
-			/*----------------------------------------*/
 		}
-		if (SoLanThuKetNoi >= 3) exit(1);	//	Đóng chương trình nếu kết nối thất bại 3 lần (Close the program if fails to connect 3 times)
 	}
 }
 
@@ -181,6 +165,28 @@ void cmysql::ReadTable(std::string t) {
 	}
 	escape0:
 	std::cout << "";
+}
+
+void cmysql::ShowDatabases() {
+	/*	Hiện các table có sẵn trong Database (Show the available tables in Database)	*/
+
+	//- 1. Hiện các table có sẵn trong Database (Show the available tables in Database)
+	std::cout << "Danh sách database:   ";
+	try {
+		std::string TaoQuery;
+		TaoQuery = "SHOW DATABASES;";
+		pstmt = con->prepareStatement(TaoQuery);
+		result = pstmt->executeQuery();
+		while (result->next()) {
+			std::string i = result->getString(1);
+			std::cout << i << " ";
+		}
+	}
+	catch (sql::SQLException e) {
+		//	std::cout << std::endl;
+		//	std::cout << e.what() << std::endl;	//	DEBUG ONLY
+	}
+	std::cout << std::endl;
 }
 
 void cmysql::ShowTables() {

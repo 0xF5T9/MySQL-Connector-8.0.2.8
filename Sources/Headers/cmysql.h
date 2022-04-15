@@ -15,6 +15,7 @@ public:
 	void Connect();
 	void ConnectDB();
 	void ReadTable(std::string t);
+	void ShowDatabases();
 	void ShowTables();
 	void AddTable(std::string t, int c);
 	void DeleteTable(std::string t);
