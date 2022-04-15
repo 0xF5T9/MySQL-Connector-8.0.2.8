@@ -5,6 +5,8 @@ private:
 	std::string sqlserver;
 	std::string sqluser;
 	std::string sqlpwd;
+	std::string sqldb;
+	std::string defaultsqldb;
 public:
 	cmysql() {	//	Constructor
 	}
@@ -21,5 +23,6 @@ public:
 	void DeleteTable(std::string t);
 	void InsertData(std::string t);
 	void UpdateData();
+	void ChangeDatabase();
 };
 

@@ -9,9 +9,11 @@
 #include <cppconn/prepared_statement.h>
 #include "..\Sources\Headers\cmysql.h"
 #include "..\Sources\Headers\animation.h"
+#include "..\Sources\Headers\menu.h"
 
 /*	Tạo object từ classes (Create objects from classes)	*/
 animation aniSQLObj;
+menu menuSQLObj;
 sql::Driver* driver;
 sql::Connection* con;
 sql::Statement* stmt;
@@ -80,17 +82,17 @@ void cmysql::Connect() {
 }
 
 void cmysql::ConnectDB() {
-	/*	Kết nối đến Database (Connect to Database)	*/
+	/*	Kết nối đến database (Connect to database)	*/
 
-	//- 1. Kết nối đến Database (Connect to Database)
+	//- 1. Kết nối đến database (Connect to database)
 	//- Đóng chương trình nếu kết nối thất bại 3 lần (Close the program if fails to connect 3 times)
-	std::string database;
 	while (true) {
 		try {
 			ShowDatabases();
 			std::cout << "Chọn database: ";
-			std::cin >> database;
-			con->setSchema(database);
+			std::cin >> sqldb;
+			con->setSchema(sqldb);
+			defaultsqldb = sqldb;	//	Đánh dấu database đã được kết nối thành công trước đó (Save the database name that have been successfully connected before)
 			system("cls");
 			break;
 		}
@@ -428,4 +430,34 @@ void cmysql::UpdateData() {
 	/*	Đặt điểm thoát nhanh khỏi vòng lặp (Set the escape point to break loop if needed)	*/
 	escape2:
 	std::cout << "";
+}
+
+void cmysql::ChangeDatabase() {
+	/*	Kết nối đến database khác (Connect to another database)	*/
+
+	//- 1. Kết nối đến database khác (Connect to another database)
+	//- Huỷ đổi database nếu database được chọn không tồn tại hoặc lỗi kết nối (Abort if database doesn't exists or fails to connect)
+	int SoLanKetNoi = 1;
+	while (true) {
+		try {
+			menuSQLObj.Menu();
+			ShowDatabases();
+			std::cout << "Chọn database: ";
+			std::cin >> sqldb;
+			con->setSchema(sqldb);
+			defaultsqldb = sqldb;
+			system("cls");
+			break;
+		}
+		catch (sql::SQLException e) {
+			//	cout << e.what() << endl;	//	DEBUG ONLY
+			std::cout << "Database không tồn tại hoặc có sự cố kết nối ";
+			aniSQLObj.dotAnimation(500);
+			std::cin.clear();
+			std::cin.ignore(10000, '\n');
+			system("cls");
+			SoLanKetNoi++;
+		}
+		if (SoLanKetNoi == 1) sqldb = defaultsqldb; break;	//	Reconnect to the previous connected database
+	}
 }
