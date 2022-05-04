@@ -1,6 +1,9 @@
 ﻿#pragma once
+#ifndef menu_h_
+#define menu_h_
+
 #include "../Sources/Headers/animation.h"
-#include "../Sources/Headers/cmysql.h"
+class cmysql;
 
 class menu {
 private:
@@ -32,3 +35,4 @@ public:
 	bool ProcessOption(int _option);
 };
 
+#endif // !menu_h_

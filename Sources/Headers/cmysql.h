@@ -1,11 +1,16 @@
 ﻿#pragma once
+#ifndef cmysql_h_
+#define cmysql_h_
+
 #include "../Sources/Headers/animation.h"
+class menu;
 
 class cmysql {
 private:
 
 	/*	Class Properties (Private)	*/
 	animation* Animation;
+	menu* Menu;
 	std::string sqlserver;
 	std::string sqluser;
 	std::string sqlpwd;
@@ -25,6 +30,9 @@ public:
 	}
 
 	/*	Class function prototypes	*/
+	void GetObj(menu* _Menu) {
+		this->Menu = _Menu;
+	}
 	void ConfigFile();
 	void Connect();
 	void ConnectDB();
@@ -38,3 +46,4 @@ public:
 	void ChangeDatabase();
 };
 
+#endif // !cmysql_h_

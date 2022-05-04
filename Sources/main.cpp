@@ -11,6 +11,7 @@ int main() {
 	animation* Animation = CreateObjectAnimation();
 	cmysql* CMySQL = CreateObjectCMySQL(Animation);
 	menu* Menu = CreateObjectMenu(Animation);
+	CMySQL->GetObj(Menu);
 	Menu->GetObj(CMySQL);
 	SetConsoleOutputCP(65001);
 

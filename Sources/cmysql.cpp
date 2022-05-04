@@ -7,6 +7,7 @@
 #include <cppconn/exception.h>
 #include <cppconn/prepared_statement.h>
 #include "../Sources/Headers/cmysql.h"
+#include "../Sources/Headers/menu.h"
 
 sql::Driver* driver;
 sql::Connection* con;
@@ -435,6 +436,7 @@ void cmysql::ChangeDatabase() {
 	int SoLanKetNoi = 1;
 	while (true) {
 		try {
+			Menu->ShowMenu();
 			ShowDatabases();
 			std::cout << "Chọn database: ";
 			std::cin >> sqldb;

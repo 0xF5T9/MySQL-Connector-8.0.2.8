@@ -1,6 +1,7 @@
 ﻿#include <iostream>
 #include <Windows.h>
 #include "../Sources/Headers/menu.h"
+#include "../Sources/Headers/cmysql.h"
 
 void menu::ShowMenu() const {
 	std::cout << "1. Đọc dữ liệu\n";
@@ -91,13 +92,13 @@ bool menu::ProcessOption(int _option) {
 	case 6: {
 		system("cls");
 		CMySQL->ChangeDatabase();
-		ShowMenu();
 		break;
 	}
 	case 7:
 		std::cout << std::endl;
-		std::cout << "Đang thoát chương trình ";
+		std::cout << "> ";
 		Animation->DotAnimation(100);
+		system("cls");
 		EXITPROGRAM = true;
 		break;
 	default:
