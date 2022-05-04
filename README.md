@@ -3,15 +3,15 @@ MySQL Connector in C++ with Demo Functions
  
 Compiler: Visual Studio 2022
 
-Build Mode: Release x86
+Build Mode: Release x64
 
-Architecture: x86
+Architecture: x64
 
 ## Set-up compile environment:
 Needs:
 - Visual Studio 2022 with C++ Compiler
 - Ready MySQL Server to connect/testing
-- MySQL Connector 8.0.2.8 dependencies | Windows (x86, 32-bit), ZIP Archive | (https://dev.mysql.com/downloads/connector/cpp/8.0.html)
+- MySQL Connector 8.0.2.8 dependencies | Windows (x86, 64-bit), ZIP Archive | (https://dev.mysql.com/downloads/connector/cpp/8.0.html)
 
 VS Project Configurations:
 1. C/C++ → General → Additional Include Directories → Include "jdbc" Folder from "MySQL Connector 8.0.2.8 dependencies". *[Image](https://media.discordapp.net/attachments/652412528793485313/963740614904664104/unknown.png)*
@@ -22,7 +22,7 @@ VS Project Configurations:
 6. Linker → Input → Additional Dependencies → Add "mysqlcppconn-static.lib". *[Image](https://media.discordapp.net/attachments/652412528793485313/963739744775335976/Capture.PNG)*
 
 Executables:
-- Executable file requires "libcrypto-1_1.dll", "libssl-1_1.dll" files to be in the same directory to works. 
+- Executable file requires "libcrypto-1_1-x64.dll", "libssl-1_1-x64.dll" files to be in the same directory to works. 
 
 (Can be found in "MySQL Connector 8.0.2.8 dependencies" and "Essentials" folder)
 
