@@ -1,21 +1,8 @@
-﻿#include <stdlib.h>
-#include <iostream>
+﻿#include <iostream>
 #include <Windows.h>
+#include "../Sources/Headers/menu.h"
 
-#include "mysql_connection.h"
-#include <cppconn/driver.h>
-#include <cppconn/exception.h>
-#include <cppconn/prepared_statement.h>
-#include "..\Sources\Headers\cmysql.h"
-#include "..\Sources\Headers\menu.h"
-#include "..\Sources\Headers\animation.h"
-
-/*	Tạo object từ classes để sử dụng constructor (Create the object to use constructors)	*/
-cmysql SQLMenuObj;
-animation aniMenuObj;
-
-/*	Định nghĩa các hàm của Menu (Define Menu Class Functions)	*/
-void menu::Menu() {
+void menu::ShowMenu() const {
 	std::cout << "1. Đọc dữ liệu\n";
 	std::cout << "2. Thêm table\n";
 	std::cout << "3. Xoá table\n";
@@ -26,43 +13,41 @@ void menu::Menu() {
 	std::cout << std::endl;
 }
 
-int menu::getInput() {
-	int i;
-	bool hopLe = false;
-	while (hopLe == false) {
+int menu::SelectOption() {
+	int iOption;
+	bool ValidOption = false;
+	while (ValidOption == false) {
 		system("cls");
-		Menu();
+		ShowMenu();
 		std::cout << "Nhập lựa chọn: ";
-		std::cin >> i;
-		if (i > 0 && i < 8) {
-			hopLe = true;
+		std::cin >> iOption;
+		if (iOption > 0 && iOption < 8) {
+			ValidOption = true;
 		}
 		std::cin.clear();
 		std::cin.ignore(10000, '\n');
 	}
-	return i;
+	return iOption;
 }
 
-bool menu::processInput(int x) {
-	bool q;
-	q = false;
-	switch (x) {
+bool menu::ProcessOption(int _option) {
+	bool EXITPROGRAM = false;
+	switch (_option) {
 	case 1: {
 		system("cls");
-		Menu();
-		SQLMenuObj.ShowTables();
+		ShowMenu();
+		CMySQL->ShowTables();
 		std::cout << std::endl;
 		std::string tinput;
 		std::cout << "Chọn table: ";
 		std::cin >> tinput;
-		SQLMenuObj.ReadTable(tinput);
-		return q;
+		CMySQL->ReadTable(tinput);
 		break;
 	}
 	case 2: {
 		system("cls");
-		Menu();
-		SQLMenuObj.ShowTables();
+		ShowMenu();
+		CMySQL->ShowTables();
 		std::cout << std::endl;
 		std::string tinput;
 		int cinput;
@@ -70,59 +55,53 @@ bool menu::processInput(int x) {
 		std::cin >> tinput;
 		std::cout << "Nhập số cột: ";
 		std::cin >> cinput;
-		SQLMenuObj.AddTable(tinput, cinput);
-		return q;
+		CMySQL->AddTable(tinput, cinput);
 		break;
 	}
 	case 3: {
 		system("cls");
-		Menu();
-		SQLMenuObj.ShowTables();
+		ShowMenu();
+		CMySQL->ShowTables();
 		std::cout << std::endl;
 		std::string dinput;
 		std::cout << "Chọn table: ";
 		std::cin >> dinput;
-		SQLMenuObj.DeleteTable(dinput);
-		return q;
+		CMySQL->DeleteTable(dinput);
 		break;
 	}
 	case 4: {
 		system("cls");
-		Menu();
+		ShowMenu();
 		std::string tinput;
-		SQLMenuObj.ShowTables();
+		CMySQL->ShowTables();
 		std::cout << std::endl;
 		std::cout << "Chọn table: ";
 		std::cin >> tinput;
-		SQLMenuObj.InsertData(tinput);
-		return q;
+		CMySQL->InsertData(tinput);
 		break;
 	}
 	case 5: {
 		system("cls");
-		Menu();
-		SQLMenuObj.ShowTables();
+		ShowMenu();
+		CMySQL->ShowTables();
 		std::cout << std::endl;
-		SQLMenuObj.UpdateData();
-		return q;
+		CMySQL->UpdateData();
 		break;
 	}
 	case 6: {
 		system("cls");
-		SQLMenuObj.ChangeDatabase();
-		return q;
+		CMySQL->ChangeDatabase();
+		ShowMenu();
 		break;
 	}
 	case 7:
 		std::cout << std::endl;
 		std::cout << "Đang thoát chương trình ";
-		aniMenuObj.dotAnimation(100);
-		q = true;
-		return q;
+		Animation->DotAnimation(100);
+		EXITPROGRAM = true;
 		break;
 	default:
-		return q;
 		break;
 	}
-	return q;
+	return EXITPROGRAM;
 }

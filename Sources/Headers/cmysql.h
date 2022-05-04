@@ -1,18 +1,30 @@
 ﻿#pragma once
-/*	Class: cMySQL - Các hàm prototype của cMySQL	*/
+#include "../Sources/Headers/animation.h"
+
 class cmysql {
 private:
+
+	/*	Class Properties (Private)	*/
+	animation* Animation;
 	std::string sqlserver;
 	std::string sqluser;
 	std::string sqlpwd;
 	std::string sqldb;
 	std::string defaultsqldb;
+
 public:
 	cmysql() {	//	Constructor
+	}
+	cmysql(animation* _Animation) {
+		this->Animation = _Animation;
+	}
+	cmysql(const cmysql& _copy) {	//	Copy Constructor
+
 	}
 	~cmysql() {	//	Destructor
 	}
 
+	/*	Class function prototypes	*/
 	void ConfigFile();
 	void Connect();
 	void ConnectDB();

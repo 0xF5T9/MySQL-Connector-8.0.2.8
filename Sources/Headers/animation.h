@@ -1,7 +1,19 @@
 ﻿#pragma once
-/*	Class: Animation - Các hàm prototype của Animation	*/
 class animation {
+private:
+
 public:
-	void dotAnimation(int x);
+	animation() {	//	Constructor
+
+	}
+	animation(const animation& _copy) {	//	Copy Constructor
+
+	}
+	~animation() {	//	Destructor
+
+	}
+
+	/*	Class function prototypes	*/
+	void DotAnimation(int _miliseconds);
 };
 

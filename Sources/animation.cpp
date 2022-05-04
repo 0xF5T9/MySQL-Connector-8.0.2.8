@@ -2,10 +2,10 @@
 #include <Windows.h>
 #include "..\Sources\Headers\animation.h"
 
-/*	Định nghĩa các hàm của Animation (Define Animation Class Functions)	*/
-void animation::dotAnimation(int x) {
+/*	Define 'animation' class functions	*/
+void animation::DotAnimation(int _miliseconds) {
 	for (int i = 0; i < 3; i++) {
-		Sleep(x);
+		Sleep(_miliseconds);
 		std::cout << ".";
 	}
 }
